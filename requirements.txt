@@ -1,0 +1,10 @@
+fastapi
+uvicorn==0.33.0
+httpx
+uvloop>=0.14.0
+httptools==0.1.*
+authlib
+itsdangerous
+pyjwt
+jinja2
+requests

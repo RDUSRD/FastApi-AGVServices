@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Desarrollador</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .user-info {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .user-info p {
+            margin: 5px 0;
+        }
+        .logout {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #dc3545;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .logout:hover {
+            background-color: #c82333;
+        }
+        .logout-authentik {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .logout-authentik:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard Desarrollador</h1>
+        <p>Welcome, {{ user_info.name }}!</p>
+        <div class="user-info">
+            <p><strong>Email:</strong> {{ user_info.email }}</p>
+            <p><strong>Username:</strong> {{ user_info.preferred_username }}</p>
+            <p><strong>Groups:</strong> {{ user_info.groups }}</p>
+        </div>
+        <a href="/logout" class="logout">Logout</a>
+        <a href="/logout-authentik" class="logout-authentik">Logout from Authentik</a>
+    </div>
+</body>
+</html>
