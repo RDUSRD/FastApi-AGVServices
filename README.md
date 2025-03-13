@@ -52,6 +52,33 @@ Esta es una aplicación simple desarrollada con FastAPI que utiliza Authentik pa
 
    # Token interno para acceso a la API interna de Authentik.
    INTERNAL_TOKEN=TuInternalToken
+
+   ```
+
+   Aqui dejo un ejemplo con datos de mis pruebas personales
+
+   ```properties
+   # Clave secreta para firmar y validar las sesiones de la aplicación.
+   SESSION_SECRET_KEY=RubenKey
+  
+   # URL base del servidor Authentik, utilizada para servicios de autenticación y autorización.
+   AUTHENTIK_URL=http://agvservicios.dynalias.com:9000
+
+   # Identificador único de la aplicación registrado en Authentik para el flujo OAuth.
+   AUTHENTIK_CLIENT_ID=xQFQEn3qhvsyh2teRjVXSxhPReOFzt1d61dsefk2
+
+   # Secreto de la aplicación para autenticarse de forma segura en Authentik.
+   AUTHENTIK_CLIENT_SECRET=YFAdKOuN3NqqSzG4Ls9ZFuHTcKKStrejy9wyIK6aJ5LF8jCgMLg6ausUiBMnkJTnX64wah7wpMQiWFnk8gAXt93ia7APsR8FTnorcmL0tEpaaZk8FMuGLWaIabTb2Pab
+
+   # URL de callback, donde Authentik redirigirá al usuario tras completar la autenticación.
+   OAUTH_CALLBACK_URL=http://localhost:8000/oauth/callback/
+
+   # URL para acceder al JWKS (JSON Web Key Set) de Authentik, utilizado para validar los tokens JWT.
+   AUTHENTIK_JWKS_URL=${AUTHENTIK_URL}/application/o/fastapiruben/jwks/
+
+   # Token interno utilizado para acceder a la API interna de Authentik, por ejemplo, para consultar usuarios.
+   INTERNAL_TOKEN=s2p6to0iH0zcjYnP8I9fpMjo22Pv1YXYLhkMX3YHhryJw4lc7YVg8M8MX7bH
+
    ```
 
 ## Ejecución en Modo Local
@@ -130,4 +157,3 @@ El proyecto incluye un archivo `docker-compose.yml` que facilita la gestión del
 
 - **Entorno de Producción:**  
   Para producción, asegúrate de configurar correctamente las variables de entorno y considerar el uso de un servidor ASGI (por ejemplo, utilizando Gunicorn con Uvicorn workers).
-
