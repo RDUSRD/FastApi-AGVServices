@@ -100,7 +100,7 @@ Si prefieres ejecutar la aplicación dentro de un contenedor Docker, sigue estos
    Asegúrate de tener Docker instalado y ejecuta:
 
    ```bash
-   docker build
+   docker compose build
    ```
 
 ## Ejecución con Docker Compose
