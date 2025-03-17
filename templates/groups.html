@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grupos - Dashboard Admin</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Grupos Disponibles</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Superuser</th>
+            <th>Usuarios</th>
+            <th>Roles</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for group in groups %}
+          <tr>
+            <td>{{ group.num_pk }}</td>
+            <td>{{ group.name }}</td>
+            <td>{{ "Sí" if group.is_superuser else "No" }}</td>
+            <td>{{ group.users | length }}</td>
+            <td>
+              {% if group.roles_obj %} {% for role in group.roles_obj %} {{
+              role.name }}{% if not loop.last %}, {% endif %} {% endfor %} {%
+              else %} - {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <a href="/dashboard" class="back">Volver al Dashboard Admin</a>
+    </div>
+  </body>
+</html>

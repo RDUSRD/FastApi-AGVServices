@@ -8,3 +8,5 @@ itsdangerous
 pyjwt
 jinja2
 requests
+Dotenv
+python-multipart

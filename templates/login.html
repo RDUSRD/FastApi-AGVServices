@@ -1,57 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Login</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-        h1 {
-            color: #333;
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #666;
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 15px 30px;
-            color: #fff;
-            background-color: #007bff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-        a:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Bienvenido</h1>
-        <p>Por favor, inicia sesión para acceder a tu dashboard.</p>
-        <a href="/oauth/authorize">Login with OAuth</a>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body class="login-page">
+    <div class="login-container">
+      <h1>Bienvenido</h1>
+      <p>Por favor, inicia sesión para acceder a tu dashboard.</p>
+      <a href="/oauth/authorize" class="login-btn">Login with OAuth</a>
     </div>
-</body>
+  </body>
 </html>

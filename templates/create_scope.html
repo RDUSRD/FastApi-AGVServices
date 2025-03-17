@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scopes - Dashboard Admin</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Scopes Disponibles</h1>
+
+      <!-- Sección para listar scopes (si se pasan a la plantilla) -->
+      {% if scopes %}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for scope in scopes %}
+          <tr>
+            <td>{{ scope.pk }}</td>
+            <td>{{ scope.name }}</td>
+            <td>{{ scope.description or "-" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>No hay scopes disponibles.</p>
+      {% endif %}
+
+      <hr />
+
+      <!-- Formulario para crear un nuevo scope -->
+      <h2>Crear Nuevo Scope</h2>
+      <form action="/admin/scopes" method="post">
+        <div>
+          <label for="mapping_name">Nombre del Mapping:</label>
+          <input
+            type="text"
+            id="mapping_name"
+            name="mapping_name"
+            value="Mapping: Usuario Venezolano - Datos y Contacto"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="scope_name">Scope Name:</label>
+          <input
+            type="text"
+            id="scope_name"
+            name="scope_name"
+            value="usuario_venezolano"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="description">Descripción:</label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            value="Mapping para obtener datos de identificación y contacto (RIF, cédula, teléfono y email) de usuarios venezolanos."
+            required
+          />
+        </div>
+
+        <div>
+          <label for="expression">Expresión:</label>
+          <textarea
+            id="expression"
+            name="expression"
+            rows="12"
+            cols="70"
+            required
+            placeholder='# Este mapping extrae el rif, cedula, telefono y email del usuario venezolano
+return {
+  "usuario_venezolano": {
+    "rif": request.user.attributes.get(&apos;rif&apos;),
+    "cedula": request.user.attributes.get(&apos;cedula&apos;),
+    "telefono": request.user.attributes.get(&apos;telefono&apos;),
+    "email": request.user.email
+  }
+}'
+          >
+{
+  "usuario_venezolano": {
+    "rif": request.user.attributes.get('rif'),
+    "cedula": request.user.attributes.get('cedula'),
+    "telefono": request.user.attributes.get('telefono'),
+    "email": request.user.email
+  }
+}
+          </textarea>
+        </div>
+
+        <br />
+        <button type="submit" class="button">Crear Scope</button>
+      </form>
+
+      <a href="/dashboard" class="back">Volver al Dashboard Admin</a>
+    </div>
+  </body>
+</html>

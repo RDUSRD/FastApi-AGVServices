@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roles - Dashboard Admin</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Roles Disponibles</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for role in roles %}
+          <tr>
+            <td>{{ role.pk }}</td>
+            <td>{{ role.name }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="/dashboard" class="back">Volver al Dashboard Admin</a>
+    </div>
+  </body>
+</html>

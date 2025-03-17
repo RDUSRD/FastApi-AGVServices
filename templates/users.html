@@ -2,53 +2,7 @@
 <html>
   <head>
     <title>Usuarios - Dashboard Admin</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        padding: 30px;
-      }
-      h1 {
-        text-align: center;
-        color: #333;
-      }
-      table {
-        border-collapse: collapse;
-        width: 100%;
-        background: #fff;
-        margin: 20px auto;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      th,
-      td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
-      }
-      th {
-        background-color: #007bff;
-        color: white;
-      }
-      tr:nth-child(even) {
-        background-color: #f9f9f9;
-      }
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-      }
-      .back {
-        display: inline-block;
-        margin: 20px 0;
-        padding: 10px 20px;
-        background: #007bff;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 4px;
-      }
-      .back:hover {
-        background: #0056b3;
-      }
-    </style>
+    <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
     <div class="container">
@@ -77,6 +31,23 @@
           {% endfor %}
         </tbody>
       </table>
+
+      <div class="pagination">
+        {% if prev_page %}
+        <a href="/admin/users?page={{ prev_page }}" class="page-link"
+          >Anterior</a
+        >
+        {% endif %} {% for p in pages %} {% if p == current_page %}
+        <span class="page-link active">{{ p }}</span>
+        {% else %}
+        <a href="/admin/users?page={{ p }}" class="page-link">{{ p }}</a>
+        {% endif %} {% endfor %} {% if next_page %}
+        <a href="/admin/users?page={{ next_page }}" class="page-link"
+          >Siguiente</a
+        >
+        {% endif %}
+      </div>
+
       <a href="/dashboard" class="back">Volver al Dashboard Admin</a>
     </div>
   </body>

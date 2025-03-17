@@ -33,53 +33,59 @@ Esta es una aplicación simple desarrollada con FastAPI que utiliza Authentik pa
 
    ```properties
    # Clave secreta para firmar y validar las sesiones de la aplicación.
-   SESSION_SECRET_KEY=TuClaveSecreta
-
-   # URL base del servidor Authentik.
-   AUTHENTIK_URL=http://tuservidor:9000
-
-   # Identificador único de la aplicación registrado en Authentik para el flujo OAuth.
-   AUTHENTIK_CLIENT_ID=TuClientID
-
-   # Secreto de la aplicación para autenticarse de forma segura en Authentik.
-   AUTHENTIK_CLIENT_SECRET=TuClientSecret
-
-   # URL de callback para el flujo OAuth.
-   OAUTH_CALLBACK_URL=http://localhost:8000/oauth/callback/
-
-   # URL para obtener el JSON Web Key Set (JWKS) de Authentik.
-   AUTHENTIK_JWKS_URL=${AUTHENTIK_URL}/application/o/fastapiruben/jwks/
-
-   # Token interno para acceso a la API interna de Authentik.
-   INTERNAL_TOKEN=TuInternalToken
-
-   ```
-
-   Aqui dejo un ejemplo con datos de mis pruebas personales
-
-   ```properties
-   # Clave secreta para firmar y validar las sesiones de la aplicación.
    SESSION_SECRET_KEY=RubenKey
-  
+
    # URL base del servidor Authentik, utilizada para servicios de autenticación y autorización.
    AUTHENTIK_URL=http://agvservicios.dynalias.com:9000
 
    # Identificador único de la aplicación registrado en Authentik para el flujo OAuth.
-   AUTHENTIK_CLIENT_ID=xQFQEn3qhvsyh2teRjVXSxhPReOFzt1d61dsefk2
+   AUTHENTIK_CLIENT_ID=gXLiJXVgp7JLDadAeM9Tg0xSMzRQ2w5sYr4mKJM8
 
    # Secreto de la aplicación para autenticarse de forma segura en Authentik.
-   AUTHENTIK_CLIENT_SECRET=YFAdKOuN3NqqSzG4Ls9ZFuHTcKKStrejy9wyIK6aJ5LF8jCgMLg6ausUiBMnkJTnX64wah7wpMQiWFnk8gAXt93ia7APsR8FTnorcmL0tEpaaZk8FMuGLWaIabTb2Pab
-
-   # URL de callback, donde Authentik redirigirá al usuario tras completar la autenticación.
-   OAUTH_CALLBACK_URL=http://localhost:8000/oauth/callback/
+   AUTHENTIK_CLIENT_SECRET=tWwANV4NCRtCwrxxJDjlu42HEZhbCpwy7iYI4IBPdSFJTCl59acMp49mWylnzCv3lBvXzL2w9fHIIXXlSVPFxBgAgbmIH34R2HwmgEmZv6Yatd0lcti79rMZfbil2Ex7
 
    # URL para acceder al JWKS (JSON Web Key Set) de Authentik, utilizado para validar los tokens JWT.
-   AUTHENTIK_JWKS_URL=${AUTHENTIK_URL}/application/o/fastapiruben/jwks/
+   AUTHENTIK_JWKS_URL=${AUTHENTIK_URL}/application/o/secondfastapi/jwks/
 
-   # Token interno utilizado para acceder a la API interna de Authentik, por ejemplo, para consultar usuarios.
+   # Token interno utilizado para acceder a la API interna de Authentik,
+   # por ejemplo, para consultar usuarios, grupos, roles y scopes.
    INTERNAL_TOKEN=s2p6to0iH0zcjYnP8I9fpMjo22Pv1YXYLhkMX3YHhryJw4lc7YVg8M8MX7bH
 
+   # URL base de la aplicación FastAPI (usada internamente y para definir el callback OAuth).
+   APP_URL=http://localhost:8000
+
+   # URL callback para el flujo OAuth, utilizada para redirigir al usuario después de autenticarse.
+   AUTHENTIK_REDIRECT_URI=${APP_URL}/oauth/callback/
+
+   # URL para terminar la sesión en Authentik (Logout), utilizada para redirigir al usuario al cerrar sesión.
+   AUTHENTIK_LOGOUT_URL=${AUTHENTIK_URL}/application/o/secondfastapi/end-session/
    ```
+
+   **Explicación de las variables de entorno:**
+
+   - **SESSION_SECRET_KEY:**  
+     Clave para firmar y validar las sesiones de la aplicación.
+
+   - **AUTHENTIK_URL:**  
+     URL base del servidor Authentik, que se utiliza para los endpoints de autenticación y autorización.
+
+   - **AUTHENTIK_CLIENT_ID y AUTHENTIK_CLIENT_SECRET:**  
+     Credenciales asignadas cuando registras la aplicación en Authentik para usar el flujo OAuth.
+
+   - **AUTHENTIK_JWKS_URL:**  
+     URL donde se obtiene el JSON Web Key Set (JWKS) para validar los tokens JWT emitidos por Authentik.
+
+   - **INTERNAL_TOKEN:**  
+     Token que se utiliza para autenticar peticiones internas a la API de Authentik (por ejemplo, para consultar usuarios, grupos, roles y scopes).
+
+   - **APP_URL:**  
+     URL en la que se ejecuta la aplicación FastAPI. Esta variable se usa para generar el callback OAuth.
+
+   - **AUTHENTIK_REDIRECT_URI:**  
+     URI de redirección OAuth, a la que Authentik enviará el token de acceso una vez el usuario se autentique. Suele ser algo similar a `http://localhost:8000/oauth/callback/`.
+
+   - **AUTHENTIK_LOGOUT_URL:**  
+     URL utilizada para cerrar sesión en Authentik, a la que se redirige cuando el usuario efectúa un logout.
 
 ## Ejecución en Modo Local
 
@@ -100,7 +106,7 @@ Si prefieres ejecutar la aplicación dentro de un contenedor Docker, sigue estos
    Asegúrate de tener Docker instalado y ejecuta:
 
    ```bash
-   docker build
+   docker compose build
    ```
 
 ## Ejecución con Docker Compose
