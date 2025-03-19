@@ -21,6 +21,6 @@ oauth.register(
     access_token_url=f'{url}/application/o/token/',
     refresh_token_url=f'{url}/application/o/token/',
     redirect_uri=os.getenv("AUTHENTIK_REDIRECT_URI"),
-    client_kwargs={'scope': 'openid profile email offline_access'},
+    client_kwargs={'scope': 'openid profile email usuario_venezolano'},
     jwks_uri=os.getenv("AUTHENTIK_JWKS_URL")
 )

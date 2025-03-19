@@ -10,6 +10,7 @@ async def dashboard(request: Request):
     token = request.session.get('token')
     if not token:
         return RedirectResponse(url="/")
+    
     try:
         decoded_token = jwt.decode(token, options={"verify_signature": False})
         if int(time.time()) >= decoded_token.get("exp", 0):
@@ -27,7 +28,10 @@ async def dashboard(request: Request):
         "preferred_username": decoded_token.get("preferred_username"),
         "nickname": decoded_token.get("nickname"),
         "groups": decoded_token.get("groups"),
-        "uid": decoded_token.get("uid")
+        "uid": decoded_token.get("uid"),
+        "rif": decoded_token.get("rif"),
+        "telefono": decoded_token.get("telefono"),
+        "cedula": decoded_token.get("cedula"),
     }
     if not user_info["email"]:
         return RedirectResponse(url="/")

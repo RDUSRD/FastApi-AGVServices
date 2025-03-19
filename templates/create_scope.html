@@ -90,14 +90,13 @@ return {
   }
 }'
           >
-{
-  "usuario_venezolano": {
+  return {
     "rif": request.user.attributes.get('rif'),
     "cedula": request.user.attributes.get('cedula'),
     "telefono": request.user.attributes.get('telefono'),
     "email": request.user.email
   }
-}
+
           </textarea>
         </div>
 
