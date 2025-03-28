@@ -67,25 +67,45 @@ Esta es una aplicación simple desarrollada con FastAPI que utiliza Authentik pa
      Clave para firmar y validar las sesiones de la aplicación.
 
    - **AUTHENTIK_URL:**  
-     URL base del servidor Authentik, que se utiliza para los endpoints de autenticación y autorización.
+     URL base del servidor Authentik, utilizada para los endpoints de autenticación y autorización.
 
    - **AUTHENTIK_CLIENT_ID y AUTHENTIK_CLIENT_SECRET:**  
-     Credenciales asignadas cuando registras la aplicación en Authentik para usar el flujo OAuth.
+     Credenciales asignadas cuando registras la aplicación en Authentik para utilizar el flujo OAuth.
 
    - **AUTHENTIK_JWKS_URL:**  
      URL donde se obtiene el JSON Web Key Set (JWKS) para validar los tokens JWT emitidos por Authentik.
 
    - **INTERNAL_TOKEN:**  
-     Token que se utiliza para autenticar peticiones internas a la API de Authentik (por ejemplo, para consultar usuarios, grupos, roles y scopes).
+     Token usado para autenticar peticiones internas a la API de Authentik (por ejemplo, para consultar usuarios, grupos, roles y scopes).
 
    - **APP_URL:**  
-     URL en la que se ejecuta la aplicación FastAPI. Esta variable se usa para generar el callback OAuth.
+     URL en la que se ejecuta la aplicación FastAPI. Se utiliza para generar el callback OAuth.
 
    - **AUTHENTIK_REDIRECT_URI:**  
-     URI de redirección OAuth, a la que Authentik enviará el token de acceso una vez el usuario se autentique. Suele ser algo similar a `http://localhost:8000/oauth/callback/`.
+     URI de redirección OAuth; Authentik redirigirá a este endpoint una vez el usuario se autenticado.
 
    - **AUTHENTIK_LOGOUT_URL:**  
-     URL utilizada para cerrar sesión en Authentik, a la que se redirige cuando el usuario efectúa un logout.
+     URL utilizada para cerrar sesión en Authentik, a la que se redirige al efectuar un logout.
+
+## Configuración de Loggers
+
+La configuración de logging se encuentra en el archivo `loggers/logger.py` y está diseñada para proporcionar registros con información adicional que ayuda a la depuración. A continuación se detallan los puntos clave:
+
+- **Uso de `zoneinfo`:**  
+  Se utiliza la librería `zoneinfo` (disponible a partir de Python 3.9) para definir la zona horaria (por defecto `"America/Caracas"`). Esto garantiza que los timestamps en los logs se formateen correctamente según la zona horaria configurada. Nota: Al ejecutar la aplicación sin Docker, asegúrate de usar Python 3.9 o superior.
+
+- **Formato Personalizado:**  
+  Los logs emplean un formato personalizado en el que se muestran los siguientes campos:
+  - **Time:** Fecha y hora.
+  - **Level:** Nivel del log (DEBUG, INFO, WARNING, ERROR, CRITICAL).
+  - **Device:** Información del dispositivo (por ejemplo, el User-Agent), extraída mediante un middleware.
+  - **User:** Información del usuario (por ejemplo, correo o username extraído del token).
+  - **IP:** La dirección IP del cliente, extraída mediante el middleware.
+  - **Func:** La función en la que se realizó el log (puede modificarse mediante el campo extra `custom_func`).
+  - **Msg:** El mensaje del log.
+
+- **Rotación de Logs:**  
+  Los registros se almacenan en la carpeta `logs` ubicada en la raíz del proyecto. Se utiliza un `RotatingFileHandler` para crear un nuevo archivo diario (nombrado según la fecha, p.ej., `2025-03-28.log`). Cada archivo se rota al alcanzar 10 MB y se mantienen hasta 5 archivos de respaldo.
 
 ## Ejecución en Modo Local
 
@@ -95,13 +115,13 @@ Para iniciar el servidor de desarrollo, activa el entorno virtual y ejecuta:
 uvicorn main:app --reload
 ```
 
-La aplicación estará disponible en `http://localhost:8000`.
+La aplicación estará disponible en [http://localhost:8000](http://localhost:8000).
 
 ## Construir la Imagen Docker
 
 Si prefieres ejecutar la aplicación dentro de un contenedor Docker, sigue estos pasos:
 
-1. **Construir la imagen**
+1. **Construir la imagen de Docker**
 
    Asegúrate de tener Docker instalado y ejecuta:
 
@@ -115,23 +135,23 @@ El proyecto incluye un archivo `docker-compose.yml` que facilita la gestión del
 
 1. **Construir y levantar el contenedor**
 
-   Desde la raíz del proyecto, ejecuta el siguiente comando para construir la imagen (si es necesario) y levantar el servicio en segundo plano:
+   Desde la raíz del proyecto, ejecuta:
 
    ```bash
    docker-compose up -d
    ```
 
-   Esto leerá las variables de entorno del archivo `.env` y expondrá el servicio en el puerto configurado (por defecto, el puerto 8000).
+   Esto leerá las variables de entorno del archivo `.env` y expondrá el servicio en el puerto configurado (por defecto, el 8000).
 
 2. **Verificar que el servicio esté corriendo**
 
-   Puedes ver los contenedores activos con:
+   Verifica los contenedores activos con:
 
    ```bash
    docker-compose ps
    ```
 
-   También puedes revisar los logs para confirmar que la aplicación se inició correctamente:
+   Para ver los logs, puedes usar:
 
    ```bash
    docker-compose logs -f
@@ -139,11 +159,11 @@ El proyecto incluye un archivo `docker-compose.yml` que facilita la gestión del
 
 3. **Acceder a la aplicación**
 
-   Abre tu navegador y visita [http://localhost:8000](http://localhost:8000) para ver la aplicación en ejecución.
+   Abre tu navegador y visita [http://localhost:8000](http://localhost:8000) para ver la aplicación en funcionamiento.
 
 4. **Detener y eliminar contenedores**
 
-   Para detener el servicio y remover los contenedores creados, usa:
+   Para detener el servicio y remover los contenedores, utiliza:
 
    ```bash
    docker-compose down
@@ -152,14 +172,18 @@ El proyecto incluye un archivo `docker-compose.yml` que facilita la gestión del
 ## Notas Adicionales
 
 - **Actualización de Dependencias:**  
-  Cada vez que actualices el archivo `requirements.txt`, puedes reinstalar las dependencias ejecutando:
+  Si actualizas el archivo `requirements.txt`, reinstala las dependencias ejecutando:
 
   ```bash
   pip install -r requirements.txt
   ```
 
-- **Logs y Debug:**  
+- **Logs y Depuración:**  
   Durante el desarrollo, puedes usar el parámetro `--reload` para que el servidor se reinicie automáticamente cuando realices cambios en el código.
 
 - **Entorno de Producción:**  
-  Para producción, asegúrate de configurar correctamente las variables de entorno y considerar el uso de un servidor ASGI (por ejemplo, utilizando Gunicorn con Uvicorn workers).
+  Para producción, configura adecuadamente las variables de entorno y considera el uso de un servidor ASGI robusto (por ejemplo, Gunicorn con Uvicorn workers).
+
+---
+
+Esta documentación brinda una descripción completa de la aplicación, desde su instalación hasta la configuración de loggers, teniendo en cuenta la zona horaria con `zoneinfo` y la persistencia de logs en la carpeta `logs`.
